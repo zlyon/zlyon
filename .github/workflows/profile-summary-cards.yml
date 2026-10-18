@@ -4,9 +4,11 @@ on:
   schedule:
     - cron: "18 0 * * *"   # 每天 00:18 UTC（北京时间 08:18）自动更新
   workflow_dispatch:
-  push:
-    branches:
-      - main
+
+# 同一时间只允许一个运行，避免并发推送互相冲突
+concurrency:
+  group: profile-summary-cards
+  cancel-in-progress: true
 
 jobs:
   generate:
