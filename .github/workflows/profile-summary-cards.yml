@@ -1,0 +1,23 @@
+name: Profile Summary Cards
+
+on:
+  schedule:
+    - cron: "18 0 * * *"   # 每天 00:18 UTC（北京时间 08:18）自动更新
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate profile summary cards
+        uses: vn7n24fzkq/github-profile-summary-cards-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          USERNAME: zlyon
+          THEME: tokyonight
