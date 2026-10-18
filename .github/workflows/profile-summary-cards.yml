@@ -13,11 +13,11 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    name: generate-github-profile-summary-cards
+    name: generate-profile-details-card
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate cards
+      - name: Generate cards (not auto-pushed)
         uses: vn7n24fzkq/github-profile-summary-cards@release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -26,4 +26,17 @@ jobs:
           BRANCH_NAME: "main"
           UTC_OFFSET: 8
           THEME: "tokyonight"
-          AUTO_PUSH: true
+          AUTO_PUSH: false
+
+      - name: Keep only profile-details card
+        run: |
+          mkdir -p cards
+          cp profile-summary-card-output/tokyonight/0-profile-details.svg cards/profile-details.svg
+          rm -rf profile-summary-card-output
+
+      - name: Commit card
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "cards/profile-details.svg"
+          message: "update profile-details card"
+          default_author: github_actions
