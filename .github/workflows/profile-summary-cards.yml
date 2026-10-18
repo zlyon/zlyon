@@ -13,11 +13,17 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    name: generate-github-profile-summary-cards
     steps:
-      - name: Generate profile summary cards
-        uses: vn7n24fzkq/github-profile-summary-cards-action@v0
+      - uses: actions/checkout@v4
+
+      - name: Generate cards
+        uses: vn7n24fzkq/github-profile-summary-cards@release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           USERNAME: zlyon
-          THEME: tokyonight
+          BRANCH_NAME: "main"
+          UTC_OFFSET: 8
+          THEME: "tokyonight"
+          AUTO_PUSH: true
